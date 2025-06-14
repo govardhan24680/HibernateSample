@@ -56,11 +56,16 @@ public class MyMainClass {
 	}
 
 	private static Employee getNewEmp() {
-		// TODO Auto-generated method stub
-		Employee e = new Employee();
-		e.setName("s1");
-		return e;
-
+		Employee employee = null;
+		try {
+			employee= new Employee();
+			employee.setName("s1");
+			return employee;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return employee;
 	}
 
 }
