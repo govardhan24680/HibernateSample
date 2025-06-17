@@ -32,6 +32,8 @@ public class Student implements Serializable{
 	@ManyToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JoinColumn(name = "schoolIdForeignKey")
 	private School school;
+	//student.getSchool().getName(); //non id prop, then get real data
+	
 	
 	@ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
 	@JoinTable(name="course_student",joinColumns= 

@@ -21,6 +21,10 @@ public class StudentDaoImpl {
 //	}
 
 	static {
+		openDbObjects();
+	}
+
+	private static void openDbObjects() {
 		sf = MyHibernateConfiguration.getSessionFactory();
 		session = sf.openSession();
 	}
@@ -39,12 +43,20 @@ public class StudentDaoImpl {
 //	
 	
 	public static void updateStudent(Student student) {
-		if (student != null) {
-			session.saveOrUpdate(student);
-			DbUtil.doTransaction(session); // now cashier doing transaction
+		try {
+			if (student != null) {
+				openDbObjects();
+				session.saveOrUpdate(student);
+				DbUtil.doTransaction(session); // now cashier doing transaction
+				System.out.println("updated student successfully================");
+				
+			} else {
+				System.out.println("not found student");
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}finally {
 			DbUtil.closeDbObjects(session, sf);
-		} else {
-			System.out.println("not found student");
 		}
 	}
 	
@@ -52,10 +64,10 @@ public class StudentDaoImpl {
 	public static void getAllStudent() {
 		try {
 			// logger.info("getAllStudent started");
+			openDbObjects();
 			List<Student> ls = session.createCriteria(Student.class).list();
-			System.out.println("list size" + ls.size());
+			System.out.println("get all student successfully========size========"+ls.size());
 		} catch (HibernateException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			// logger.error("getAllStudent error {}", e.getMessage());
 			System.out.println("getAllStudent error {}" + e.getMessage());
@@ -68,33 +80,35 @@ public class StudentDaoImpl {
 	public static Student getStudent(int id) {
 		Student student = null;
 		try {
+			openDbObjects();
 			// logger.info("getStudent using id {} ", id);
 			 student = session.get(Student.class, id);
 			if (student != null) {
+				System.out.println("get student successfully by id================"+id);
 				return student;
 			}
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 			// logger.error("getStudent id {} error {}", id, e.getMessage());
 			System.out.println("getStudent id " + id + " error " + e.getMessage());
 		} finally {
 			DbUtil.closeDbObjects(session, sf);
 		}
-		return student;  //null
-
-		// doTransaction(sf, session);
+		return student;
 	}
 
 	public static void saveStudent(Student s) {
 		session.save(s); // gave check to cashier 5 lacs
 		 DbUtil.doTransaction(session); // now cashier doing transaction
+		 System.out.println("Saved student successfully================");
 			DbUtil.closeDbObjects(session, sf);
 	}
 	
-	public static void deleteStudent(Student s) {
-	    session.delete(s); // instruct Hibernate to delete the object
+	public static void deleteStudent(Student student) {
+		openDbObjects();
+	    session.delete(student); // instruct Hibernate to delete the object
 	    DbUtil.doTransaction(session); // now cashier doing transaction
+System.out.println("deleted student succsessfulky====");
 		DbUtil.closeDbObjects(session, sf);
 	}
 

@@ -13,16 +13,21 @@ public class MyMainClass {
 
 	public static void main(String[] args) {
 
-		sf = MyHibernateConfiguration.getSessionFactory();
-		session = sf.openSession();
+//		sf = MyHibernateConfiguration.getSessionFactory();
+//		session = sf.openSession();
 
-		StudentDaoImpl.saveStudent(getNewStudent());
+		doStudentOperations();
+
 		EmployeeDaoImpl.saveEmployee(getNewEmp());
+
+	}
+
+	private static void doStudentOperations() {
+		StudentDaoImpl.saveStudent(getNewStudent());
 		updateStudentUsingId(1);
 		StudentDaoImpl.getStudent(1);
 		StudentDaoImpl.getAllStudent();
 		deleteStudentUsingId(1);
-
 	}
 
 	private static void deleteStudentUsingId(int id) {
@@ -48,11 +53,9 @@ public class MyMainClass {
 //so I am using this class for call the dao class
 
 	private static Student getNewStudent() {
-		// TODO Auto-generated method stub
 		Student s = new Student();
 		s.setName("s1");
 		return s;
-
 	}
 
 	private static Employee getNewEmp() {
@@ -62,7 +65,6 @@ public class MyMainClass {
 			employee.setName("s1");
 			return employee;
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return employee;
