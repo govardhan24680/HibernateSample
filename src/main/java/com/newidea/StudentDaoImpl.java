@@ -6,12 +6,23 @@ import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.newidea.entity.Employee;
 import com.newidea.entity.Student;
 import com.newidea.util.DbUtil;
 
 public class StudentDaoImpl {
+	
+	private static final Logger logger = LoggerFactory.getLogger(StudentDaoImpl.class);
+	
+	//I i = new A();
+	
+	//info
+	//warn
+	//error
+	//debug
 
 	static SessionFactory sf = null;
 	static Session session = null;
@@ -25,6 +36,7 @@ public class StudentDaoImpl {
 	}
 
 	private static void openDbObjects() {
+		logger.info("openDbObjects opened session and sesson factory");
 		sf = MyHibernateConfiguration.getSessionFactory();
 		session = sf.openSession();
 	}
@@ -42,19 +54,24 @@ public class StudentDaoImpl {
 //	}
 //	
 	
+	/**
+	 * @param student
+	 * This is used for updating student
+	 */
 	public static void updateStudent(Student student) {
+		logger.info("updateStudent updating student");
 		try {
 			if (student != null) {
+				logger.info("updateStudent updating student id {} name {}", student.getId(), student.getName());  
 				openDbObjects();
 				session.saveOrUpdate(student);
-				DbUtil.doTransaction(session); // now cashier doing transaction
-				System.out.println("updated student successfully================");
-				
+				DbUtil.doTransaction(session);
 			} else {
-				System.out.println("not found student");
+				logger.warn("updateStudent student is {}", student);
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
+			logger.error("updateStudent error {}", e.getMessage());
 		}finally {
 			DbUtil.closeDbObjects(session, sf);
 		}

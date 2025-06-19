@@ -13,7 +13,7 @@ public class Passport implements Serializable{
 	@GeneratedValue
 	private int id;
 	
-	private String name;
+	private String passportId;
 
 	public int getId() {
 		return id;
@@ -23,17 +23,17 @@ public class Passport implements Serializable{
 		this.id = id;
 	}
 
-	public String getName() {
-		return name;
+	public String getPassportId() {
+		return passportId;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPassportId(String passportId) {
+		this.passportId = passportId;
 	}
 
 	@Override
 	public String toString() {
-		return "Student [id=" + id + ", name=" + name + "]";
+		return "Student [id=" + id + ", passportId=" + passportId + "]";
 	}
 	
 	

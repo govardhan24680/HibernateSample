@@ -26,7 +26,7 @@ public class Student implements Serializable{
 	
 	private String name;
 
-	@OneToOne
+	@OneToOne(cascade = CascadeType.ALL)
 	private Passport passport;
 	
 	@ManyToOne(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)

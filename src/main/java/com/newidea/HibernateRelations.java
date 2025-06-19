@@ -81,7 +81,7 @@ public class HibernateRelations {
 		s.setName("one to one");
 		
 		Passport p = new Passport();
-		p.setName("p1");
+		p.setPassportId("p1");
 		
 		s.setPassport(p);
 		session.save(p);
