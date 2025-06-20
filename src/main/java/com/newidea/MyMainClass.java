@@ -5,12 +5,14 @@ import org.hibernate.SessionFactory;
 
 import com.newidea.entity.Employee;
 import com.newidea.entity.Passport;
+import com.newidea.entity.School;
 import com.newidea.entity.Student;
 
 public class MyMainClass {
 
+	private static final String NEW_SCHOOL_NAME = "Mothr thereasa school";
 	private static final String PASSPORT_ID = "P123";
-	private static final String NEW_STUDENT_NAME = "s1";
+	private static final String NEW_STUDENT_NAME = "s2";
 	private static final String UPDATED_STUDENT_NAME = "new name updated";
 	static SessionFactory sf = null;
 	static Session session = null;
@@ -20,10 +22,12 @@ public class MyMainClass {
 //		sf = MyHibernateConfiguration.getSessionFactory();
 //		session = sf.openSession();
 		//StudentDaoImpl.getStudent(10);
-		doStudentOperations();
+		//doStudentOperations();
 		//doPassportOperations();
 
 		//EmployeeDaoImpl.saveEmployee(createNewEmp());
+		//doSchoolOperations();
+		StudentDaoImpl.saveStudent(createNewStudent());
 
 	}
 
@@ -41,7 +45,18 @@ public class MyMainClass {
 	    PassportDaoImpl.getAllPassports();
 	    deletePassportUsingId(1);
 	}
+	
+	private static void doSchoolOperations() {
+	  SchoolDaoImpl.saveSchool(createNewSchool());
+	}
 
+
+	private static School createNewSchool() {
+		// TODO Auto-generated method stub
+		School s = new School();
+		s.setName(NEW_SCHOOL_NAME);
+		return s;
+	}
 
 	private static void deleteStudentUsingId(int id) {
 		Student stu = StudentDaoImpl.getStudent(id);
@@ -87,13 +102,24 @@ public class MyMainClass {
 //so I am using this class for call the dao class
 
 	private static Student createNewStudent() {
-		Student s = new Student();
-		s.setName(NEW_STUDENT_NAME);
+		Student student = new Student();
+		student.setName(NEW_STUDENT_NAME);
 		
 		Passport passport = new Passport();
 		passport.setPassportId(PASSPORT_ID);
 		
-		s.setPassport(passport);
+		student.setPassport(passport);
+		
+		//get school details from db using id
+		//set these school to student
+		//if this id not exist, show message as shool not found
+		int schoolId = 13;
+		School sch = SchoolDaoImpl.getSchool(schoolId);
+		if (sch != null) {
+			student.setSchool(sch);
+		} else {
+			System.out.println("School not found using this id " + schoolId);
+		}
 		
 //		with out cascade type all
 //		session.save(s.getPassport());  // Save passport first
@@ -101,7 +127,7 @@ public class MyMainClass {
 //		DbUtil.doTransaction(session);
 //		
 		
-		return s;
+		return student;
 	}
 	
 	
