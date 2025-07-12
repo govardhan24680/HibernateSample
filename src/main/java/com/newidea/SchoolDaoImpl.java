@@ -68,10 +68,11 @@ public class SchoolDaoImpl {
 		return school;
 	}
 
-	public static void saveSchool(School s) {
+	public static void saveOrUpdateSchool(School s) {
 		try {
+			openDbObjects();
 			logger.info("saving school info");
-			session.save(s); // gave check to cashier 5 lacs
+			session.saveOrUpdate(s); // gave check to cashier 5 lacs
 			 DbUtil.doTransaction(session); // now cashier doing transaction
 		} catch (Exception e) {
 			e.printStackTrace();

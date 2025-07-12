@@ -46,6 +46,12 @@
         <artifactId>logback-classic</artifactId>
         <version>1.4.14</version> <!-- Use latest -->
     </dependency>
+    
+    <dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-ehcache</artifactId>
+    <version>5.6.15.Final</version>
+</dependency>
 
    
 
@@ -61,6 +67,12 @@
     <groupId>com.sun.xml.bind</groupId>
     <artifactId>jaxb-impl</artifactId>
     <version>2.3.3</version>
+</dependency>
+
+<dependency>
+    <groupId>org.apache.commons</groupId>
+    <artifactId>commons-collections4</artifactId>
+    <version>4.4</version> <!-- or latest -->
 </dependency>
 
 <!-- Activation Framework -->

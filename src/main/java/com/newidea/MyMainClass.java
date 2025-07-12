@@ -1,8 +1,11 @@
 package com.newidea;
 
+import java.util.List;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
+import com.newidea.constants.HibernateSampleConstants;
 import com.newidea.entity.Employee;
 import com.newidea.entity.Passport;
 import com.newidea.entity.School;
@@ -27,15 +30,21 @@ public class MyMainClass {
 
 		//EmployeeDaoImpl.saveEmployee(createNewEmp());
 		//doSchoolOperations();
-		StudentDaoImpl.saveStudent(createNewStudent());
-
+		//StudentDaoImpl.saveStudent(createNewStudent());
+	//	StudentDaoImpl.getAllStudentUsingPagination(2, 10);
+		//StudentDaoImpl.getAllStudentsUsingHQL();
+		//StudentDaoImpl.getStudentsUsingNamedQuery();
+		//StudentDaoImpl.getStudentsUsingNamedQueryFindByName("mahesh");
+		//StudentDaoImpl.getStudentsUsingCriteria("es");
+		StudentDaoImpl.usingHibernateFilter();
 	}
 
 	private static void doStudentOperations() {
 		StudentDaoImpl.saveStudent(createNewStudent());
 		updateStudentUsingId(1);
 		StudentDaoImpl.getStudent(10);
-		StudentDaoImpl.getAllStudent();
+		List<Student> list = StudentDaoImpl.getAllStudent();
+		MyJava8Operations.doJava8OPerations(list);
 		deleteStudentUsingId(1);
 	}
 	private static void doPassportOperations() {
@@ -47,7 +56,7 @@ public class MyMainClass {
 	}
 	
 	private static void doSchoolOperations() {
-	  SchoolDaoImpl.saveSchool(createNewSchool());
+	  SchoolDaoImpl.saveOrUpdateSchool(createNewSchool());
 	}
 
 
@@ -114,7 +123,7 @@ public class MyMainClass {
 		//set these school to student
 		//if this id not exist, show message as shool not found
 		int schoolId = 13;
-		School sch = SchoolDaoImpl.getSchool(schoolId);
+		School sch = SchoolDaoImpl.getSchool(HibernateSampleConstants.SCHOOL_ID);
 		if (sch != null) {
 			student.setSchool(sch);
 		} else {

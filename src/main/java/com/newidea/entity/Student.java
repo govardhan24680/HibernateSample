@@ -3,6 +3,7 @@ package com.newidea.entity;
 import java.io.Serializable;
 import java.util.List;
 
+import javax.persistence.Cacheable;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -12,11 +13,29 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 
+import org.hibernate.annotations.Cache;
+import org.hibernate.annotations.CacheConcurrencyStrategy;
+import org.hibernate.annotations.Filter;
+import org.hibernate.annotations.FilterDef;
+import org.hibernate.annotations.ParamDef;
+
 
 @Entity
+@FilterDef(name = "studentFilterByName", parameters = @ParamDef(name = "studentName", type = "string"))
+@Filter(name = "studentFilterByName", condition = "name = :studentName")
+@FilterDef(name = "studentFilterById", parameters = @ParamDef(name = "studentId", type = "int"))
+@Filter(name = "studentFilterById", condition = "id = :studentId")
+@NamedQueries({
+@NamedQuery(name = "getAllStudents", query = "FROM Student"),
+@NamedQuery(name = "studentFindByName", query = "FROM Student s WHERE s.name = :name")
+})
+@Cacheable
+@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Student implements Serializable{
 	
 	@Id
@@ -39,16 +58,18 @@ public class Student implements Serializable{
 	@JoinTable(name="course_student",joinColumns= 
     {@JoinColumn(name="student_id")},inverseJoinColumns=
 	{@JoinColumn(name="course_id")})
-	private List<Course> course;
+	private List<Course> listOfCourses;
 	
 	
 	
-	public List<Course> getCourse() {
-		return course;
+	
+
+	public List<Course> getListOfCourses() {
+		return listOfCourses;
 	}
 
-	public void setCourse(List<Course> course) {
-		this.course = course;
+	public void setListOfCourses(List<Course> listOfCourses) {
+		this.listOfCourses = listOfCourses;
 	}
 
 	public School getSchool() {

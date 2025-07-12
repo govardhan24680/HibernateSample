@@ -1,10 +1,14 @@
 package com.newidea.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 @Entity
 public class School implements Serializable {
 	
@@ -15,6 +19,13 @@ public class School implements Serializable {
 	private int id;
 	
 	private String name;
+	
+	@OneToMany(mappedBy = "school", cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
+	private List<Student> listOfStudents;
+	//listOfStudents apply for loop then get real data
+	//listOfStudents.size  then get real data
+	
+	
 
 	public int getId() {
 		return id;
@@ -36,10 +47,13 @@ public class School implements Serializable {
 	public String toString() {
 		return "Student [id=" + id + ", name=" + name + "]";
 	}
-	
-	
-	
 
+	public List<Student> getListOfStudents() {
+		return listOfStudents;
+	}
 
+	public void setListOfStudents(List<Student> listOfStudents) {
+		this.listOfStudents = listOfStudents;
+	}
 
 }
